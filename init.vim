@@ -18,6 +18,11 @@ if has('unix') && !has('gui_running')
   let g:deoplete#enable_at_startup = 1
 endif
 
+
+if has('unix') && !has('gui_running')
+endif
+
+
 "---------------------------------------------------------------
 " vi互換モード禁止
 " 各種プラグイン等機能しなくなったりするため
@@ -328,11 +333,11 @@ if has('unix') && !has('gui_running')
   if s:uname =~? "linux"
 "   set term=builtin_linux
 "   set term=xterm
-    let &t_AB="\e[48;5;%dm"
-    let &t_AF="\e[38;5;%dm"
+    let &t_ab="\e[48;5;%dm"
+    let &t_af="\e[38;5;%dm"
   elseif s:uname =~? "freebsd"
     set term=builtin_cons25
-  elseif s:uname =~? "Darwin"
+  elseif s:uname =~? "darwin"
 "    set term=beos-ansi
 "    set term=builtin_ansi
   else
@@ -344,45 +349,45 @@ endif
 "---------------------------------------------------------------
 " move
 "
-"カーソルを表示行で移動する。物理行移動は<C-n>,<C-p>
+"カーソルを表示行で移動する。物理行移動は<c-n>,<c-p>
 nmap j gj
 nmap k gk
-nmap <Down> gj
-nmap <Up>   gk
+nmap <down> gj
+nmap <up>   gk
 
 " 入力モードでのカーソル移動 ctrl+shift+j と干渉
-"inoremap <C-j> <Down>
-"inoremap <C-k> <Up>
-"inoremap <C-h> <Left>
-"inoremap <C-l> <Right>
+"inoremap <c-j> <down>
+"inoremap <c-k> <up>
+"inoremap <c-h> <left>
+"inoremap <c-l> <right>
 
- " Stop certain movements from always going to the first character of a line.
- " While this behaviour deviates from that of Vi, it does what most users
+ " stop certain movements from always going to the first character of a line.
+ " while this behaviour deviates from that of vi, it does what most users
  " coming from other editors would expect.
  " 移動コマンドを使ったとき、行頭に移動しない
  set nostartofline
 
- " Instead of failing a command because of unsaved changes, instead raise a
+ " instead of failing a command because of unsaved changes, instead raise a
  " dialogue asking if you wish to save changed files.
  " バッファが変更されているとき、コマンドをエラーにするのでなく、保存する
  " かどうか確認を求める
  set confirm
 
-" Auto save
+" auto save
 set autowrite
 set updatetime=1000
-function! s:AutoWriteIfPossible()
+function! s:autowriteifpossible()
   if &modified && !&readonly && bufname('%') !=# '' && &buftype ==# '' && expand("%") !=# ''
     write
   endif
 endfunction
-augroup AutoWrite
+augroup autowrite
   autocmd!
-  autocmd CursorHold * call s:AutoWriteIfPossible()
-  autocmd CursorHoldI * call s:AutoWriteIfPossible()
-augroup END
+  autocmd cursorhold * call s:autowriteifpossible()
+  autocmd cursorholdi * call s:autowriteifpossible()
+augroup end
 
-" Enable use of the mouse for all modes
+" enable use of the mouse for all modes
 "set mouse=a
 
 "---------------------------------------------------------------
@@ -402,20 +407,20 @@ set wrapscan
 " 検索語を強調表示
 set hlsearch
 
-"\v(Very Magic) Vim方言を使わずに、一般的な正規表現に近い形で書ける
+"\v(very magic) vim方言を使わずに、一般的な正規表現に近い形で書ける
 ":help magic
 " nmap / /\v
 " nmap ? ?\v
 
 " if has('win32')
-"   map /  <Plug>(incsearch-forward)
-"   map ?  <Plug>(incsearch-backward)
-"   map g/ <Plug>(incsearch-stay)
+"   map /  <plug>(incsearch-forward)
+"   map ?  <plug>(incsearch-backward)
+"   map g/ <plug>(incsearch-stay)
 " endif
 
 " 検索語が画面の真ん中に来るようにする
 "nmap n nzz
-""nmap N Nzz "逆方向検索できなくなる  
+""nmap n nzz "逆方向検索できなくなる  
 "nmap * *zz 
 "nmap # #zz 
 "nmap g* g*zz 
@@ -424,16 +429,16 @@ set hlsearch
 " "---------------------------------------------------------------
 " " search (osyo-manga/vim-anzu)
 " "
-" nmap n <Plug>(anzu-n-with-echo)zz
-" nmap N <Plug>(anzu-N-with-echo)zz
-" nmap * <Plug>(anzu-star-with-echo)
-" nmap # <Plug>(anzu-sharp-with-echo)zz
-" nmap <Esc><Esc> <Plug>(anzu-clear-search-status)
+" nmap n <plug>(anzu-n-with-echo)zz
+" nmap n <plug>(anzu-n-with-echo)zz
+" nmap * <plug>(anzu-star-with-echo)
+" nmap # <plug>(anzu-sharp-with-echo)zz
+" nmap <esc><esc> <plug>(anzu-clear-search-status)
 " 
 " " if start anzu-mode key mapping
 " " anzu-mode is anzu(12/51) in screen
-" " nmap n <Plug>(anzu-mode-n)
-" " nmap N <Plug>(anzu-mode-N)
+" " nmap n <plug>(anzu-mode-n)
+" " nmap n <plug>(anzu-mode-n)
 
 "---------------------------------------------------------------
 " edit
@@ -450,31 +455,31 @@ set autoindent
 set smartindent
 
 " テキスト挿入中の自動折り返しを日本語に対応させる
-set formatoptions+=mM
+set formatoptions+=mm
 
 "---------------------------------------------------------------
 " yank 
 "
-" ビジュアル選択(D&D他)を自動的にクリップボードへ (:help guioptions_a)
+" ビジュアル選択(d&d他)を自動的にクリップボードへ (:help guioptions_a)
 "set guioptions+=a
 
 "通常は無名レジスタに入るヤンク/カットが、*レジスタにも入るようになる
 "*レジスタにデータを入れると、クリップボードにデータが入る
 set clipboard+=unnamed
 
-" Capture
+" capture
 command!
       \ -nargs=1
       \ -complete=command
-      \ Capture
-      \ call Capture(<f-args>)
+      \ capture
+      \ call capture(<f-args>)
 
-function! Capture(cmd)
+function! capture(cmd)
   redir => result
   silent execute a:cmd
-  redir END
+  redir end
 
-  let bufname = 'Capture: ' . a:cmd
+  let bufname = 'capture: ' . a:cmd
   new
   setlocal bufhidden=unload
   setlocal nobuflisted
@@ -486,81 +491,81 @@ function! Capture(cmd)
 endfunction
 
 "---------------------------------------------------------------
-" NeoBundle 2016/3/11
+" neobundle 2016/3/11
 "
 let s:neo_enabled  = 0
 if v:version < 704 || has('win64')
   let s:neo_enabled = 1
 
 " install to windows
-" mkdir $VIM\bundle
-" git clone https://github.com/Shougo/neobundle.vim bundle\neobundle.vim
+" mkdir $vim\bundle
+" git clone https://github.com/shougo/neobundle.vim bundle\neobundle.vim
  
   " vim起動時のみruntimepathにneobundle.vimを追加
   if has('vim_starting')
     if &compatible
         set compatible
     endif
-    set runtimepath+=$VIM/bundle/neobundle.vim/
+    set runtimepath+=$vim/bundle/neobundle.vim/
   endif
   
-  " neobundle.vimの初期化 " NeoBundleを更新するための設定
-call neobundle#begin(expand($VIM.'/bundle'))
-  NeoBundleFetch 'Shougo/neobundle.vim'
+  " neobundle.vimの初期化 " neobundleを更新するための設定
+call neobundle#begin(expand($vim.'/bundle'))
+  neobundlefetch 'shougo/neobundle.vim'
   
 "  " :h markdown-cheat-sheet
-"  NeoBundle 'gist:hail2u/747628', {
+"  neobundle 'gist:hail2u/747628', {
 "         \ 'name': 'markdown-cheat-sheet.jax',
 "         \ 'script_type': 'doc'}
-"  NeoBundle 'junegunn/vim-easy-align'
-"  NeoBundle 'kannokanno/previm'
-"  NeoBundle 'Shougo/vimfiler.vim'
-"  NeoBundle 'tyru/open-browser.vim'
+"  neobundle 'junegunn/vim-easy-align'
+"  neobundle 'kannokanno/previm'
+"  neobundle 'shougo/vimfiler.vim'
+"  neobundle 'tyru/open-browser.vim'
 "let g:netrw_nogx = 1
-"nmap gs <Plug>(openbrowser-smart-search)
-"vmap gs <Plug>(openbrowser-smart-search)
-"command! OpenBrowserCurrent execute "OpenBrowser" "file:///".expand("%:p")
+"nmap gs <plug>(openbrowser-smart-search)
+"vmap gs <plug>(openbrowser-smart-search)
+"command! openbrowsercurrent execute "openbrowser" "file:///".expand("%:p")
 "
 "  " search
-"  NeoBundle 'haya14busa/incsearch.vim'
-"  NeoBundle 'osyo-manga/vim-anzu'
+"  neobundle 'haya14busa/incsearch.vim'
+"  neobundle 'osyo-manga/vim-anzu'
 "
 "  " syntax, color, indent
-"  NeoBundle 'hail2u/vim-css3-syntax'
-"  NeoBundle 'othree/html5.vim'
-   NeoBundle 'plasticboy/vim-markdown'
-"  NeoBundle 'w0ng/vim-hybrid'
-   NeoBundle 'Yggdroot/indentLine'
-"  NeoBundle 'vimperator/vimperator'
+"  neobundle 'hail2u/vim-css3-syntax'
+"  neobundle 'othree/html5.vim'
+   neobundle 'plasticboy/vim-markdown'
+"  neobundle 'w0ng/vim-hybrid'
+   neobundle 'yggdroot/indentline'
+"  neobundle 'vimperator/vimperator'
   
-"  JavaScript syntax hilight
-  NeoBundle 'pangloss/vim-javascript'
-  NeoBundle 'othree/yajs.vim'
+"  javascript syntax hilight
+  neobundle 'pangloss/vim-javascript'
+  neobundle 'othree/yajs.vim'
 
   " pluntumlのシンタクスハイライトと:makeコマンド
   " *.pu か *.uml か *.plantuml 
-  "NeoBundle 'aklt/plantuml-syntax'
+  "neobundle 'aklt/plantuml-syntax'
   "letg:plantuml_executable_script = "~/dotfiles/plantuml"
-  "NeoBundle 'vim-scripts/plantuml-syntax'
+  "neobundle 'vim-scripts/plantuml-syntax'
 
   " unite
-  NeoBundle 'sgur/unite-everything'
-  NeoBundle 'shougo/neomru.vim'
-  NeoBundle 'shougo/unite.vim'
-  NeoBundle 'shougo/neoyank.vim'
-  NeoBundle 'shougo/unite-outline'
+  neobundle 'sgur/unite-everything'
+  neobundle 'shougo/neomru.vim'
+  neobundle 'shougo/unite.vim'
+  neobundle 'shougo/neoyank.vim'
+  neobundle 'shougo/unite-outline'
 
   " sugest
   " neocompleteは、neovimでdeopleteに移行
-  NeoBundle 'shougo/neocomplete.vim'
-  NeoBundle 'shougo/neco-syntax'
-  NeoBundle 'shougo/neosnippet'
-  NeoBundle 'shougo/neosnippet-snippets'
+  neobundle 'shougo/neocomplete.vim'
+  neobundle 'shougo/neco-syntax'
+  neobundle 'shougo/neosnippet'
+  neobundle 'shougo/neosnippet-snippets'
 
 "  " autocompletion python
-"  "NeoBundle 'davidhalter/jedi-vim'
+"  "neobundle 'davidhalter/jedi-vim'
 "  "jedi-vimにはclang_completeが必要
-"  "NeoBundle 'git://github.com/Shougo/clang_complete.git'
+"  "neobundle 'git://github.com/shougo/clang_complete.git'
 "  
 "  "markdownとかで他の言語が埋め込まれてる時に便利になるやつだった気がする
 "  "neobundle 'shougo/context_filetype.vim'
@@ -596,42 +601,42 @@ call neobundle#begin(expand($VIM.'/bundle'))
  endif
 
 "---------------------------------------------------------------
-" dein Scripts
+" dein scripts
 "
 let s:dein_enabled  = 0
 "if v:version >= 704 && !has('win32')
 if !has('win32')
   let s:dein_enabled = 1
                                                                                           
-  " Required:                                                                             
-  set runtimepath+=/root/.cache/dein/repos/github.com/Shougo/dein.vim                     
+  " required:                                                                             
+  set runtimepath+=/root/.cache/dein/repos/github.com/shougo/dein.vim                     
                                                                                           
-  " Required:                                                                             
+  " required:                                                                             
   if dein#load_state('/root/.cache/dein')                                                 
     call dein#begin('/root/.cache/dein')                                                  
                                                                                           
-    " Let dein manage dein                                                                
-    " Required:                                                                           
-    call dein#add('/root/.cache/dein/repos/github.com/Shougo/dein.vim')                   
+    " let dein manage dein                                                                
+    " required:                                                                           
+    call dein#add('/root/.cache/dein/repos/github.com/shougo/dein.vim')                   
                                                                                           
-    " Add or remove your plugins here:                                                    
-    call dein#add('Shougo/neosnippet.vim')                                                
-    call dein#add('Shougo/neosnippet-snippets')                                           
+    " add or remove your plugins here:                                                    
+    call dein#add('shougo/neosnippet.vim')                                                
+    call dein#add('shougo/neosnippet-snippets')                                           
     "call dein#add('w0ng/vim-hybrid')                                           
                                                                                           
-    " You can specify revision/branch/tag.                                                
-    call dein#add('Shougo/vimshell', { 'rev': '3787e5' })                                 
+    " you can specify revision/branch/tag.                                                
+    call dein#add('shougo/vimshell', { 'rev': '3787e5' })                                 
                                                                                           
-    " Required:                                                                           
+    " required:                                                                           
     call dein#end()                                                                       
     call dein#save_state()                                                                
   endif                                                                                   
                                                                                           
-  " Required:                                                                             
+  " required:                                                                             
   filetype plugin indent on                                                               
   syntax enable                                                                           
                                                                                           
-  " If you want to install not installed plugins on startup.                              
+  " if you want to install not installed plugins on startup.                              
   if dein#check_install()                                                                
     call dein#install()                                                                  
   endif                                                                                  
@@ -640,67 +645,67 @@ endif
 ""---------------------------------------------------------------
 "" neocomplete
 ""
-"Note: This option must be set in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
-" Disable AutoComplPop.
-let g:acp_enableAtStartup = 0
-" Use neocomplete.
+"note: this option must be set in .vimrc(_vimrc).  not in .gvimrc(_gvimrc)!
+" disable autocomplpop.
+let g:acp_enableatstartup = 0
+" use neocomplete.
 let g:neocomplete#enable_at_startup = 1
-" Use smartcase.
+" use smartcase.
 let g:neocomplete#enable_smart_case = 1
-" Set minimum syntax keyword length.
+" set minimum syntax keyword length.
 let g:neocomplete#sources#syntax#min_keyword_length = 3
 
-" Define dictionary.
+" define dictionary.
 let g:neocomplete#sources#dictionary#dictionaries = {
     \ 'default' : '',
-    \ 'vimshell' : $HOME.'/.vimshell_hist',
-    \ 'scheme' : $HOME.'/.gosh_completions',
+    \ 'vimshell' : $home.'/.vimshell_hist',
+    \ 'scheme' : $home.'/.gosh_completions',
     \ '_' : $vimdir.'/dicts/engtojpn.dict',
         \ }
 
-" Define keyword.
+" define keyword.
 if !exists('g:neocomplete#keyword_patterns')
     let g:neocomplete#keyword_patterns = {}
 endif
 let g:neocomplete#keyword_patterns['default'] = '\h\w*'
 
-" Plugin key-mappings.
-inoremap <expr><C-g>     neocomplete#undo_completion()
-inoremap <expr><C-l>     neocomplete#complete_common_string()
+" plugin key-mappings.
+inoremap <expr><c-g>     neocomplete#undo_completion()
+inoremap <expr><c-l>     neocomplete#complete_common_string()
 
-" Recommended key-mappings.
-" <CR>: close popup and save indent.
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+" recommended key-mappings.
+" <cr>: close popup and save indent.
+inoremap <silent> <cr> <c-r>=<sid>my_cr_function()<cr>
 function! s:my_cr_function()
-  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
-  " For no inserting <CR> key.
-  "return pumvisible() ? "\<C-y>" : "\<CR>"
+  return (pumvisible() ? "\<c-y>" : "" ) . "\<cr>"
+  " for no inserting <cr> key.
+  "return pumvisible() ? "\<c-y>" : "\<cr>"
 endfunction
-" <TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-" Close popup by <Space>.
-"inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
+" <tab>: completion.
+inoremap <expr><tab>  pumvisible() ? "\<c-n>" : "\<tab>"
+" <c-h>, <bs>: close popup and delete backword char.
+inoremap <expr><c-h> neocomplete#smart_close_popup()."\<c-h>"
+inoremap <expr><bs> neocomplete#smart_close_popup()."\<c-h>"
+" close popup by <space>.
+"inoremap <expr><space> pumvisible() ? "\<c-y>" : "\<space>"
 
-" AutoComplPop like behavior.
+" autocomplpop like behavior.
 "let g:neocomplete#enable_auto_select = 1
 
-" Shell like behavior(not recommended).
+" shell like behavior(not recommended).
 "set completeopt+=longest
 "let g:neocomplete#enable_auto_select = 1
 "let g:neocomplete#disable_auto_complete = 1
-"inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
+"inoremap <expr><tab>  pumvisible() ? "\<down>" : "\<c-x>\<c-u>"
 
-" Enable omni completion.
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+" enable omni completion.
+autocmd filetype css setlocal omnifunc=csscomplete#completecss
+autocmd filetype html,markdown setlocal omnifunc=htmlcomplete#completetags
+autocmd filetype javascript setlocal omnifunc=javascriptcomplete#completejs
+autocmd filetype python setlocal omnifunc=pythoncomplete#complete
+autocmd filetype xml setlocal omnifunc=xmlcomplete#completetags
 
-" Enable heavy omni completion.
+" enable heavy omni completion.
 if !exists('g:neocomplete#sources#omni#input_patterns')
   let g:neocomplete#sources#omni#input_patterns = {}
 endif
@@ -708,15 +713,15 @@ endif
 "let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
 "let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
 
-" For perlomni.vim setting.
+" for perlomni.vim setting.
 " https://github.com/c9s/perlomni.vim
 let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 
 ""---------------------------------------------------------------
-"" Alignを日本語環境で使用するための設定
+"" alignを日本語環境で使用するための設定
 ""
-":let g:Align_xstrlen = 3
-"":AlignCtrl p0P0
+":let g:align_xstrlen = 3
+"":alignctrl p0p0
 
 "---------------------------------------------------------------
 " key-mappings
@@ -724,8 +729,8 @@ let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 " h map-modes
 "
 if has('win32')
-  nmap <Space>. :<C-u>tabedit $VIM/_gvimrc<CR>
-  nmap <Space>, :<C-u>tabedit $VIM/_vimrc<CR>
+  nmap <space>. :<c-u>tabedit $vim/_gvimrc<cr>
+  nmap <space>, :<c-u>tabedit $vim/_vimrc<cr>
 elseif has('unix')
   nmap <Space>, :<C-u>tabedit /root/neovim/share/nvim/sysinit.vim<CR>
 endif
