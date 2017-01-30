@@ -1,27 +1,3 @@
-if has('unix') && !has('gui_running')
-  " dein.vim設定
-  set runtimepath^=~/.deinvim/dein/repos/github.com/Shougo/dein.vim
-  
-  if dein#load_state('~/.deinvim/dein')
-    call dein#begin('~/.deinvim/dein')
-    call dein#load_toml('~/.deinvim/dein.toml',{'lazy' : 0})
-    call dein#load_toml('~/.deinvim/dein_lazy.toml',{'lazy' : 1})
-    call dein#end()
-    call dein#save_state()
-  endif
-  
-  if dein#check_install()
-    call dein#install()
-  endif
-  
-  " deoplete設定
-  let g:deoplete#enable_at_startup = 1
-endif
-
-
-if has('unix') && !has('gui_running')
-endif
-
 
 "---------------------------------------------------------------
 " vi互換モード禁止
@@ -604,42 +580,40 @@ call neobundle#begin(expand($vim.'/bundle'))
 " dein scripts
 "
 let s:dein_enabled  = 0
-"if v:version >= 704 && !has('win32')
 if !has('win32')
   let s:dein_enabled = 1
                                                                                           
-  " required:                                                                             
-  set runtimepath+=/root/.cache/dein/repos/github.com/shougo/dein.vim                     
-                                                                                          
-  " required:                                                                             
-  if dein#load_state('/root/.cache/dein')                                                 
-    call dein#begin('/root/.cache/dein')                                                  
-                                                                                          
-    " let dein manage dein                                                                
-    " required:                                                                           
-    call dein#add('/root/.cache/dein/repos/github.com/shougo/dein.vim')                   
-                                                                                          
-    " add or remove your plugins here:                                                    
-    call dein#add('shougo/neosnippet.vim')                                                
-    call dein#add('shougo/neosnippet-snippets')                                           
-    "call dein#add('w0ng/vim-hybrid')                                           
-                                                                                          
-    " you can specify revision/branch/tag.                                                
-    call dein#add('shougo/vimshell', { 'rev': '3787e5' })                                 
-                                                                                          
-    " required:                                                                           
-    call dein#end()                                                                       
-    call dein#save_state()                                                                
-  endif                                                                                   
-                                                                                          
-  " required:                                                                             
-  filetype plugin indent on                                                               
-  syntax enable                                                                           
-                                                                                          
-  " if you want to install not installed plugins on startup.                              
-  if dein#check_install()                                                                
-    call dein#install()                                                                  
-  endif                                                                                  
+  " Required:
+  set runtimepath+=/home/enxajt/.cache/dein/repos/github.com/Shougo/dein.vim
+  
+  " Required:
+  if dein#load_state('/home/enxajt/.cache/dein')
+    call dein#begin('/home/enxajt/.cache/dein')
+  
+    " Let dein manage dein
+    " Required:
+    call dein#add('/home/enxajt/.cache/dein/repos/github.com/Shougo/dein.vim')
+  
+    " Add or remove your plugins here:
+    call dein#add('Shougo/neosnippet.vim')
+    call dein#add('Shougo/neosnippet-snippets')
+  
+    " You can specify revision/branch/tag.
+    call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
+  
+    " Required:
+    call dein#end()
+    call dein#save_state()
+  endif
+  
+  " Required:
+  filetype plugin indent on
+  syntax enable
+  
+  " If you want to install not installed plugins on startup.
+  if dein#check_install()
+    call dein#install()
+  endif
 endif                                                                                   
 
 ""---------------------------------------------------------------
