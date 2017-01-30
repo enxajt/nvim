@@ -30,7 +30,11 @@ endif
 
 "---------------------------------------------------------------
 " file, directly 
-let $VIMDIR = $HOME."/.vim"
+if has('win32')
+  let $VIMDIR = $HOME."/.vim"
+else
+  let $VIMDIR = $HOME."/.config/nvim"
+endif
 "=の前後にスペースは入れない
 let &backupdir=$VIMDIR."/backup" 
 let &directory=$VIMDIR."/swp" 
@@ -283,7 +287,7 @@ endif
 
 " 画面を黒地に白にする (次行の先頭の " を削除すれば有効になる)
 set background=dark
-"colorscheme hybrid " (Windows用gvim使用時はgvimrcを編集すること)
+colorscheme hybrid " (Windows用gvim使用時はgvimrcを編集すること)
 
 function! s:load_after_colors()
   let color = expand($VIMDIR.'/colors/color_enxajt.vim')
