@@ -444,13 +444,14 @@ set formatoptions+=mm
 set clipboard+=unnamed
 
 " capture
-command!
+if !has('win32')
+  command!
       \ -nargs=1
       \ -complete=command
       \ capture
-      \ call capture(<f-args>)
-
-function! capture(cmd)
+      \ call Capture(<f-args>)
+endif
+function! Capture(cmd)
   redir => result
   silent execute a:cmd
   redir end
