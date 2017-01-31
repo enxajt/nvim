@@ -711,7 +711,7 @@ if has('win32')
   nmap <space>. :<c-u>tabedit $vim/_gvimrc<cr>
   nmap <space>, :<c-u>tabedit $vim/_vimrc<cr>
 elseif has('unix')
-  nmap <Space>, :<C-u>tabedit /root/neovim/share/nvim/sysinit.vim<CR>
+  nmap <Space>, :<C-u>tabedit $VIMDIR/init.vim<CR>
 endif
 
 nmap <C-o><C-o> <ESC>i<C-r>=strftime(" %Y.%m.%d %H:%M:%S ")<CR><CR>
